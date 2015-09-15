@@ -49,7 +49,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    MyTableViewCell *cell = [[MyTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    MyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"com.yahoo.example"];
     
     NSString *imageUrl = self.images[indexPath.row][@"images"][@"low_resolution"][@"url"];
     
@@ -62,7 +62,7 @@
     // CGFloat imageRatio = [width / height float];
     // cell.imageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH * imageRatio);
     
-    [cell.imageView setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"test.png"]];
+    [cell.myImageView setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"test.png"]];
     
     return cell;
 }
@@ -78,7 +78,7 @@
 {
     
     NSLog(@"Section: %ld", indexPath.row);
-    [self performSegueWithIdentifier:@"showPhotoDetail" sender:self];
+    //[self performSegueWithIdentifier:@"showPhotoDetail" sender:self];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
