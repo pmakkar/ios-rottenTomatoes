@@ -1,1 +1,1 @@
-![](gif/Recording3.gif)
+![](Recording3.gif)
