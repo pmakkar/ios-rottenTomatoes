@@ -10,6 +10,7 @@
 		6F64B3711BA7830300087505 /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F64B3701BA7830300087505 /* PhotosViewController.m */; settings = {ASSET_TAGS = (); }; };
 		6F64B3741BA7908B00087505 /* MyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F64B3731BA7908B00087505 /* MyTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		6F64B3761BA79DF800087505 /* test.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F64B3751BA79DF800087505 /* test.png */; settings = {ASSET_TAGS = (); }; };
+		6F677AC81BA94ED4005308D6 /* MyDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F677AC71BA94ED4005308D6 /* MyDetailTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		6FB0843D1BA7818F000B6971 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FB0843C1BA7818F000B6971 /* main.m */; };
 		6FB084401BA7818F000B6971 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FB0843F1BA7818F000B6971 /* AppDelegate.m */; };
 		6FB084461BA7818F000B6971 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6FB084441BA7818F000B6971 /* Main.storyboard */; };
@@ -45,6 +46,8 @@
 		6F64B3721BA7908B00087505 /* MyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTableViewCell.h; sourceTree = "<group>"; };
 		6F64B3731BA7908B00087505 /* MyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyTableViewCell.m; sourceTree = "<group>"; };
 		6F64B3751BA79DF800087505 /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = test.png; path = ../../test.png; sourceTree = "<group>"; };
+		6F677AC61BA94ED4005308D6 /* MyDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDetailTableViewCell.h; sourceTree = "<group>"; };
+		6F677AC71BA94ED4005308D6 /* MyDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDetailTableViewCell.m; sourceTree = "<group>"; };
 		6FB084381BA7818F000B6971 /* Instagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FB0843C1BA7818F000B6971 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6FB0843E1BA7818F000B6971 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -139,6 +142,8 @@
 				6F64B3731BA7908B00087505 /* MyTableViewCell.m */,
 				6FE7CB921BA7CF6200D0AA24 /* PhotoDetailsViewController.h */,
 				6FE7CB931BA7CF6200D0AA24 /* PhotoDetailsViewController.m */,
+				6F677AC61BA94ED4005308D6 /* MyDetailTableViewCell.h */,
+				6F677AC71BA94ED4005308D6 /* MyDetailTableViewCell.m */,
 			);
 			path = Instagram;
 			sourceTree = "<group>";
@@ -343,6 +348,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F677AC81BA94ED4005308D6 /* MyDetailTableViewCell.m in Sources */,
 				6FB084401BA7818F000B6971 /* AppDelegate.m in Sources */,
 				6F64B3741BA7908B00087505 /* MyTableViewCell.m in Sources */,
 				6F64B3711BA7830300087505 /* PhotosViewController.m in Sources */,

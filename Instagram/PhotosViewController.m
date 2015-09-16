@@ -13,9 +13,11 @@
 
 
 @interface PhotosViewController ()
-@property (nonatomic,strong) NSURLSession *session;
+//@property (nonatomic,strong) NSURLSession *session;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property(nonatomic,retain) NSArray *images;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
+//@property (strong, nonatomic) IBOutlet UIView *errorView;
 
 @end
 
@@ -26,52 +28,64 @@
     
     NSLog(@"in view load");
     
+    // Getting refresh control
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(onRefresh) forControlEvents:UIControlEventValueChanged];
+    [self.myTableView insertSubview:self.refreshControl atIndex:0];
+    //[self onRefresh];
+    
     self.myTableView.dataSource = self;
     self.myTableView.delegate = self;
     
-    UINib *movieCellNib = [UINib nibWithNibName:@"MyTableViewCell" bundle:nil];
-    [self.myTableView registerNib:movieCellNib forCellReuseIdentifier:@"MyTableViewCell"];
+    // Instagram
+    // NSURL *url = [NSURL URLWithString:@"https://api.instagram.com/v1/media/popular?client_id=68f79eddb25342a595f46befb3efe00e"];
     
-    NSURL *url = [NSURL URLWithString:@"https://api.instagram.com/v1/media/popular?client_id=68f79eddb25342a595f46befb3efe00e"];
+    // rotten tomatoes
+    NSURL *url = [NSURL URLWithString:@"https://gist.githubusercontent.com/timothy1ee/d1778ca5b944ed974db0/raw/489d812c7ceeec0ac15ab77bf7c47849f2d1eb2b/gistfile1.json"];
+    
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         
         NSLog(@"response: %@", responseDictionary);
-        self.images = responseDictionary[@"data"];
+        
+        // instagram
+        //self.images = responseDictionary[@"data"];
+        
+        // rotten
+        self.images = responseDictionary[@"movies"];
+        
         [self.myTableView reloadData];
     }];
 }
 
 - (long)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    //return 5;
+    return [self.images count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     MyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"com.yahoo.example"];
     
-    NSString *imageUrl = self.images[indexPath.row][@"images"][@"low_resolution"][@"url"];
+    // Instagram
+    // NSString *imageUrl = self.images[indexPath.row][@"images"][@"low_resolution"][@"url"];
     
-    // Image resizing test 1
-    // NSFL *height = [self.images[indexPath.row][@"images"][@"low_resolution"][@"height"] floatValue];
-    // float *width = self.images[indexPath.row][@"images"][@"low_resolution"][@"width"];
-    // [cell.imageView setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"test.png"]];
+    // Rotten
+    NSString *imageUrl = self.images[indexPath.row][@"posters"][@"thumbnail"];
+    NSRange range = [imageUrl rangeOfString:@".*cloudfront.net/" options:NSRegularExpressionSearch];
+    if (range.location != NSNotFound) {
+        imageUrl = [imageUrl stringByReplacingCharactersInRange:range withString:@"https://content6.flixster.com/"];
+    }
     
-    // Image resizing test 2
-    // CGFloat imageRatio = [width / height float];
-    // cell.imageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH * imageRatio);
+    cell.myMovieLabel.text = self.images[indexPath.row][@"title"];
+    NSInteger i = (int) self.images[indexPath.row][@"runtime"];
+    NSString *myString = [NSString stringWithFormat:@"%ld",i];
+    cell.myDurationLabel.text = myString;
     
-    [cell.myImageView setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"test.png"]];
     
+    [cell.myImageView setImageWithURL:[NSURL URLWithString:imageUrl]];
     return cell;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Image resizing test 3
-    // CGSize imageSize = [[UIImage imageNamed:self.theData[indexPath.row]] size];
-    // CGFloat height = [self.images[indexPath.row][@"images"][@"low_resolution"][@"height"] floatValue]/[self.images[indexPath.row][@"images"][@"low_resolution"][@"width"] floatValue] * (tableView.frame.size.width - 16);
-    return 180;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -88,6 +102,39 @@
 }
 
 
+/*
+- (void)onRefresh {
+    // Showing a loading state while waiting for movies API
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.center = CGPointMake(160, 240);
+    spinner.hidesWhenStopped = YES;
+    [self.view addSubview:spinner];
+    [spinner startAnimating];
+    
+    NSURL *url = [NSURL URLWithString:@"https://gist.githubusercontent.com/timothy1ee/d1778ca5b944ed974db0/raw/489d812c7ceeec0ac15ab77bf7c47..."];
+    
+    // NSLog(@"Response %@", url);
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        
+        if (connectionError) {
+            // add the new view as a subview to an existing one (e.g. self.view)
+            //[self.view addSubview:self.errorView];
+            
+        } else {
+            NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            self.images = responseDictionary[@"movies"];
+            [self.myTableView reloadData];
+        }
+        // End refreshing control
+        [self.refreshControl endRefreshing];
+        
+        // Stop the loading animation
+        [spinner stopAnimating];
+    }];
+}*/
+
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -100,7 +147,13 @@
     if ([segue.identifier isEqualToString:@"showPhotoDetail"]) {
         PhotoDetailsViewController *photoDetailsViewController = [segue destinationViewController];
         NSIndexPath *indexPath = [self.myTableView indexPathForSelectedRow];
-        photoDetailsViewController.url = self.images[indexPath.row][@"images"][@"low_resolution"][@"url"];
+        // instagram
+        // photoDetailsViewController.url = self.images[indexPath.row][@"images"][@"low_resolution"][@"url"];
+        
+        
+        photoDetailsViewController.url = self.images[indexPath.row][@"posters"][@"detailed"];
+        photoDetailsViewController.synopsis = self.images[indexPath.row][@"synopsis"];
+
      }
 }
 @end

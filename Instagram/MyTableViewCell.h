@@ -10,5 +10,7 @@
 
 @interface MyTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *myImageView;
+@property (weak, nonatomic) IBOutlet UILabel *myMovieLabel;
+@property (weak, nonatomic) IBOutlet UILabel *myDurationLabel;
 
 @end

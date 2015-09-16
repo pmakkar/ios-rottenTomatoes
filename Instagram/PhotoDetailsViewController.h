@@ -11,5 +11,6 @@
 @interface PhotoDetailsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSString *url;
-
+//@property (nonatomic, strong) NSDictionary *selectedMovie;
+@property (nonatomic, strong) NSString *synopsis;
 @end
